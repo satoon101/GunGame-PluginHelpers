@@ -69,11 +69,10 @@ def create_plugin(plugin_name, **options):
     if options.get('config', False):
         _copy_file(plugin_path / 'configuration.py')
 
-    if options.get('config_trans', False):
         _create_file(
             plugin_base_path.joinpath(
                 'resource', 'source-python', 'translations', 'gungame',
-                'custom_plugins', 'config', plugin_name + '.ini'
+                'config', 'custom_plugins', plugin_name + '.ini'
             )
         )
 
@@ -82,6 +81,13 @@ def create_plugin(plugin_name, **options):
 
     if options.get('rules', False):
         _copy_file(plugin_path / 'rules.py')
+
+        _create_file(
+            plugin_base_path.joinpath(
+                'resource', 'source-python', 'translations', 'gungame',
+                'rules', 'custom_plugins', plugin_name + '.ini'
+            )
+        )
 
     if options.get('settings', False):
         _copy_file(plugin_path / 'settings.py')
@@ -114,7 +120,7 @@ def create_plugin(plugin_name, **options):
         _create_file(
             plugin_base_path.joinpath(
                 'resource', 'source-python', 'translations', 'gungame',
-                'custom_plugins', plugin_name + '.ini'
+                'messages', 'custom_plugins', plugin_name + '.ini'
             )
         )
 
@@ -293,19 +299,16 @@ if __name__ == '__main__':
     if _plugin_name is not None:
 
         _config = _get_file('configuration')
-        _config_translations = False
-        if _config:
-            _config_translations = _get_file('configuration translations')
         _events = _get_file('custom events')
         _rules = _get_file('rules')
         _settings = _get_file('player settings')
         _sounds = _get_file('sounds')
         _data = _get_directory_or_file('data')
-        _translations = _get_file('translations')
+        _translations = _get_file('message translations')
 
         # Call create_plugin with the options
         create_plugin(
-            _plugin_name, config=_config, config_trans=_config_translations,
-            events=_events, rules=_rules, settings=_settings, sounds=_sounds,
-            data=_data, translations=_translations
+            _plugin_name, config=_config, events=_events, rules=_rules,
+            settings=_settings, sounds=_sounds, data=_data,
+            translations=_translations
         )
