@@ -27,7 +27,7 @@ __all__ = (
 # =============================================================================
 # >> CLASSES
 # =============================================================================
-class {plugin_class}(CustomEvent):
+class GG_{plugin_class}(CustomEvent):
 
     variable = ShortVariable('Description of the variable')
 
