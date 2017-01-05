@@ -50,16 +50,22 @@ def link_plugin(plugin_name):
         'plugins', 'gungame', plugin_name + '.ini',
     )
 
-    # Link the translations file
+    # Link the message translations file
     _link_file(
         plugin_path, 'resource', 'source-python', 'translations',
-        'gungame', 'custom_plugins', plugin_name + '.ini'
+        'gungame', 'messages', 'custom_plugins', plugin_name + '.ini'
     )
 
     # Link the config translations file
     _link_file(
         plugin_path, 'resource', 'source-python', 'translations',
-        'gungame', 'custom_plugins', 'config', plugin_name + '.ini'
+        'gungame', 'config', 'custom_plugins', plugin_name + '.ini'
+    )
+
+    # Link the rules translations file
+    _link_file(
+        plugin_path, 'resource', 'source-python', 'translations',
+        'gungame', 'rules', 'custom_plugins', plugin_name + '.ini'
     )
 
 
