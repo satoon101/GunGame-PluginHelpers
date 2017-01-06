@@ -23,3 +23,4 @@ __all__ = (
 # >> CONFIGURATION
 # =============================================================================
 with GunGameConfigManager(info.name) as _config:
+    pass

@@ -56,6 +56,12 @@ def link_plugin(plugin_name):
         'gungame', 'messages', 'custom_plugins', plugin_name + '.ini'
     )
 
+    # Link the commands translations file
+    _link_file(
+        plugin_path, 'resource', 'source-python', 'translations',
+        'gungame', 'commands', 'custom_plugins', plugin_name + '.ini'
+    )
+
     # Link the config translations file
     _link_file(
         plugin_path, 'resource', 'source-python', 'translations',

@@ -66,6 +66,16 @@ def create_plugin(plugin_name, **options):
 
     _copy_file(plugin_path / plugin_name + '.py')
 
+    if options.get('commands', False):
+        _copy_file(plugin_path / 'commands.py')
+
+        _create_file(
+            plugin_base_path.joinpath(
+                'resource', 'source-python', 'translations', 'gungame',
+                'commands', 'custom_plugins', plugin_name + '.ini'
+            )
+        )
+
     if options.get('config', False):
         _copy_file(plugin_path / 'configuration.py')
 
@@ -157,11 +167,13 @@ def _copy_file(filepath):
     plugin_name = filepath.parent.namebase.split('_', 1)[1]
     plugin_class = plugin_name.title()
     plugin_title = plugin_class.replace('_', ' ')
+    plugin_command = plugin_title.replace(' ', '')
 
     file_contents = file_contents.format(
         plugin_name=plugin_name,
-        plugin_title=plugin_title,
         plugin_class=plugin_class,
+        plugin_title=plugin_title,
+        plugin_command=plugin_command,
         author=AUTHOR,
     )
 
@@ -298,6 +310,7 @@ if __name__ == '__main__':
     # Was a valid plugin name given?
     if _plugin_name is not None:
 
+        _commands = _get_file('commands')
         _config = _get_file('configuration')
         _events = _get_file('custom events')
         _rules = _get_file('rules')
@@ -308,7 +321,7 @@ if __name__ == '__main__':
 
         # Call create_plugin with the options
         create_plugin(
-            _plugin_name, config=_config, events=_events, rules=_rules,
-            settings=_settings, sounds=_sounds, data=_data,
-            translations=_translations
+            _plugin_name, commands=_commands, config=_config, events=_events,
+            rules=_rules, settings=_settings, sounds=_sounds, data=_data,
+            translations=_translations,
         )
