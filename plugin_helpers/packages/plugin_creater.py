@@ -123,10 +123,8 @@ def create_plugin(plugin_name, **options):
             plugin_name
         ).makedirs()
 
-    translations = options.get('translations', False)
-
     # Should a translations file be created?
-    if translations:
+    if options.get('translations', False):
         _create_file(
             plugin_base_path.joinpath(
                 'resource', 'source-python', 'translations', 'gungame',
