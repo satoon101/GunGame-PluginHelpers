@@ -134,14 +134,12 @@ def create_release(plugin_name=None):
 
         # Loop through all allowed directories
         for allowed_path in allowed_filetypes:
-            print(allowed_path)
 
             # Get the full path to the directory
             check_path = plugin_path.joinpath(*allowed_path.split('/'))
 
             # Does the directory exist?
             if not check_path.isdir():
-                print('continuing')
                 continue
 
             # Loop through all files within the directory
