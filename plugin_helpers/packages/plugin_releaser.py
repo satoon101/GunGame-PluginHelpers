@@ -12,6 +12,9 @@ from subprocess import PIPE, Popen
 from zipfile import ZIP_DEFLATED
 from zipfile import ZipFile
 
+# Site-package
+from configobj import ConfigObj
+
 # Package
 from common.constants import RELEASE_DIR
 from common.constants import START_DIR
@@ -39,7 +42,7 @@ allowed_filetypes = {
     'addons/source-python/data/plugins/gungame': (
         _readable_data + ['md', 'txt']
     ),
-    'resource/source-python/translations/gungame/custom_plugins': ['ini'],
+    'resource/source-python/translations/gungame': ['ini'],
 }
 
 # Store non-plugin specific directories
@@ -52,7 +55,9 @@ other_filetypes = {
 # Store directories with files that fit allowed_filetypes
 #   with names that should not be included
 exception_filetypes = {
-    'resource/source-python/translations/': ['_server.ini'],
+    'resource/source-python/translations/gungame': [
+        '_server.ini',
+    ],
 }
 
 
@@ -94,12 +99,12 @@ def create_release(plugin_name=None):
         return
 
     # Get the plugin's current version
-    version = _get_version(
-        plugin_path.joinpath(
-            'addons', 'source-python', 'plugins', 'gungame',
-            'plugins', 'custom', plugin_name,
-        )
+    info_file = plugin_path.joinpath(
+        'addons', 'source-python', 'plugins', 'gungame', 'plugins', 'custom',
+        plugin_name, 'info.ini'
     )
+    config_obj = ConfigObj(info_file)
+    version = config_obj['version']
 
     # Was no version information found?
     if version is None:
@@ -129,12 +134,14 @@ def create_release(plugin_name=None):
 
         # Loop through all allowed directories
         for allowed_path in allowed_filetypes:
+            print(allowed_path)
 
             # Get the full path to the directory
             check_path = plugin_path.joinpath(*allowed_path.split('/'))
 
             # Does the directory exist?
             if not check_path.isdir():
+                print('continuing')
                 continue
 
             # Loop through all files within the directory
@@ -190,29 +197,6 @@ def create_release(plugin_name=None):
 # =============================================================================
 # >> HELPER FUNCTIONS
 # =============================================================================
-def _get_version(plugin_path):
-    """Return the version for the plugin."""
-    # Loop through all Python files for the plugin
-    for file in plugin_path.files('*.py'):
-
-        # Open the file
-        with file.open() as open_file:
-
-            # Get the contents of the file
-            contents = open_file.read()
-
-            # Is the version information not contained in the current file?
-            if 'info.version = ' not in contents:
-                continue
-
-            # Return the version
-            return contents.split(
-                'info.version = ', 1)[1].splitlines()[0][1:~0]
-
-    # If no version information was found, simply return None
-    return None
-
-
 def _find_files(generator, allowed_path, allowed_dictionary):
     """Yield files that should be added to the zip."""
     # Suppress FileNotFoundError in case the
