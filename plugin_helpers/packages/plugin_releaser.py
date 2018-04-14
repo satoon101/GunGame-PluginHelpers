@@ -14,6 +14,7 @@ from zipfile import ZipFile
 
 # Site-package
 from configobj import ConfigObj
+from git import Repo
 
 # Package
 from common.constants import RELEASE_DIR
@@ -58,6 +59,15 @@ exception_filetypes = {
     'resource/source-python/translations/gungame': [
         '_server.ini',
     ],
+}
+
+_info_path = 'addons/source-python/plugins/gungame/plugins/custom/'
+
+_version_updates = {
+    1: 'MAJOR',
+    2: 'MINOR',
+    3: 'PATCH',
+    4: 'None',
 }
 
 
@@ -195,6 +205,87 @@ def create_release(plugin_name=None):
 # =============================================================================
 # >> HELPER FUNCTIONS
 # =============================================================================
+def _validate_diff(plugin_name):
+    """Validate that the plugin does not have outstanding changes."""
+    plugin_repo = START_DIR / plugin_name
+    repo = Repo(plugin_repo)
+    if str(repo.active_branch) != 'master':
+        print(f'Not on "master" branch. On branch "{repo.active_branch}"')
+        return False
+    if bool(repo.index.diff(None)):
+        print('There are uncommitted changes')
+        return False
+    return True
+
+
+def _get_version_update_type(previous=None):
+    """"""
+    clear_screen()
+    message = ''
+    if previous is not None:
+        message += f'Invalid value given "{previous}"\n\n'
+
+    message += 'Which type of version update should this be?\n\n'
+    for number, choice in sorted(_version_updates.items()):
+        message += f'\t({number}) {choice}\n'
+
+    value = input(message + '\n').strip()
+    if not value.isdigit():
+        return _get_version_update_type(value)
+
+    value = int(value)
+    if value not in _version_updates:
+        return _get_version_update_type(value)
+
+    return value
+
+
+def _update_version(plugin_name):
+    """"""
+    plugin_repo = START_DIR / plugin_name
+    info_file = plugin_repo / _info_path / plugin_name / 'info.ini'
+    if not info_file.isfile():
+        print('No info.ini file found')
+        return False
+
+    info = ConfigObj(info_file)
+    version = info.get('version')
+    if version is None:
+        print('"version" not found in info.ini')
+        return False
+
+    try:
+        version = [int(x) for x in version.split('.')]
+    except ValueError:
+        print(f'Invalid "version" in info.ini: "{version}"')
+        return False
+
+    if len(version) != 3:
+        print(f'Invalid "version" in info.ini: "{version}"')
+        return False
+
+    update_type = _get_version_update_type()
+    if update_type != 4:
+        _commit_new_version(plugin_repo, info, version, update_type)
+
+    return True
+
+
+def _commit_new_version(plugin_repo, info, version, update_type):
+    """"""
+    repo = Repo(plugin_repo)
+    version[update_type - 1] += 1
+    version[update_type:] = [0] * (3 - update_type)
+
+    version = info['version'] = '.'.join(map(str, version))
+    info.write()
+    repo.index.add([info.filename.replace(plugin_repo, '')[1:]])
+    repo.index.commit(
+        f'{_version_updates[update_type]} version update ({version})'
+    )
+    repo.remotes.origin.push()
+
+
 def _find_files(generator, allowed_path, allowed_dictionary):
     """Yield files that should be added to the zip."""
     # Suppress FileNotFoundError in case the
@@ -260,8 +351,11 @@ if __name__ == '__main__':
     # Was a valid plugin chosen?
     if _plugin_name is not None:
 
-        # Clear the screen
-        clear_screen()
+        # Validate that there are no outstanding changes
+        if _validate_diff(_plugin_name):
 
-        # Create a release for the chosen plugin
-        create_release(_plugin_name)
+            # Update the version
+            if _update_version(_plugin_name):
+
+                # Create a release for the chosen plugin
+                create_release(_plugin_name)

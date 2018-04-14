@@ -1,3 +1,4 @@
+GitPython
 configobj
 path.py
 pep8
