@@ -74,6 +74,17 @@ def link_plugin(plugin_name):
         'gungame', 'rules', 'custom_plugins', plugin_name + '.ini'
     )
 
+    # Link sounds
+    sound_path = plugin_path / 'sound' / 'source-python' / 'gungame' / 'default'
+    if not sound_path.isdir():
+        return
+
+    for sound_file in sound_path.files():
+        _link_file(
+            plugin_path, 'sound', 'source-python', 'gungame', 'default',
+            sound_file.name,
+        )
+
 
 # =============================================================================
 # >> HELPER FUNCTIONS

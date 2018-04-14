@@ -64,6 +64,8 @@ def create_plugin(plugin_name, **options):
 
     _copy_file(plugin_path / 'info.py')
 
+    _copy_file(plugin_path / 'info.ini')
+
     _copy_file(plugin_path / plugin_name + '.py')
 
     if options.get('commands', False):
@@ -104,6 +106,9 @@ def create_plugin(plugin_name, **options):
 
     if options.get('sounds', False):
         _copy_file(plugin_path / 'sounds.py')
+        plugin_base_path.joinpath(
+            'sound', 'source-python', 'gungame', 'default',
+        ).makedirs()
 
     data = options.get('data', None)
 
@@ -136,7 +141,7 @@ def create_plugin(plugin_name, **options):
     for file in PREMADE_FILES_DIR.files():
 
         # Skip Python files
-        if file.ext == '.py':
+        if not file.name.startswith('.'):
             continue
 
         # Copy the file to the plugin's base directory

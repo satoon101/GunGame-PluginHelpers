@@ -13,5 +13,5 @@ from gungame.core.commands.registration import register_command_callback
 # >> FUNCTIONS
 # =============================================================================
 @register_command_callback('{plugin_name}', '{plugin_command}:Command')
-def _{plugin_name}_callback(command, index, team_only=False):
+def _{plugin_name}_callback(index):
     pass
