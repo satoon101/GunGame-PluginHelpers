@@ -1,7 +1,7 @@
 GitPython
 configobj
-path.py
-pep8
-pep257
+path
+pycodestyle
+pydocstyle
 pyflakes
 pylint

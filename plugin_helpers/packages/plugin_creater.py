@@ -145,8 +145,8 @@ def create_plugin(plugin_name, **options):
             continue
 
         # Copy the file to the plugin's base directory
-        PREMADE_FILES_DIR.joinpath(file.namebase).copy(
-            plugin_base_path / file.namebase
+        PREMADE_FILES_DIR.joinpath(file.stem).copy(
+            plugin_base_path / file.stem
         )
 
 
@@ -167,7 +167,7 @@ def _copy_file(filepath):
 
         file_contents = open_file.read()
 
-    plugin_name = filepath.parent.namebase.split('_', 1)[1]
+    plugin_name = filepath.parent.stem.split('_', 1)[1]
     plugin_class = plugin_name.title()
     plugin_title = plugin_class.replace('_', ' ')
     plugin_command = plugin_title.replace(' ', '')
