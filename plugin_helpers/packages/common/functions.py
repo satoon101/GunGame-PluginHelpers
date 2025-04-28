@@ -8,7 +8,6 @@
 # Python
 from contextlib import suppress
 from os import system
-from warnings import warn
 
 # Package
 from common.constants import PLATFORM, plugin_list
@@ -19,44 +18,37 @@ from common.constants import PLATFORM, plugin_list
 # =============================================================================
 def clear_screen():
     """Clear the screen."""
-    system('cls' if PLATFORM == 'windows' else 'clear')
+    system("cls" if PLATFORM == "windows" else "clear")
 
 
-def get_plugin(suffix, allow_all=True):
+def get_plugin(suffix, *, allow_all=True):
     """Return a plugin by name to do something with."""
     # Clear the screen
     clear_screen()
 
     # Are there any plugins?
     if not plugin_list:
-        print('There are no plugins to {suffix}.'.format(suffix=suffix))
+        print(f"There are no plugins to {suffix}.")
         return None
 
     # Get the question to ask
-    message = 'What plugin would you like to {suffix}?\n\n'.format(
-        suffix=suffix,
-    )
+    message = f"What plugin would you like to {suffix}?\n\n"
 
     # Loop through each plugin
     for number, plugin in enumerate(plugin_list, 1):
 
         # Add the current plugin
-        message += '\t({number}) {plugin}\n'.format(
-            number=number,
-            plugin=plugin,
-        )
+        message += f"\t({number}) {plugin}\n"
 
     # Add ALL to the list if it needs to be
     if allow_all:
-        message += '\t({number}) ALL\n'.format(
-            number=len(plugin_list) + 1,
-        )
+        message += f"\t({len(plugin_list) + 1}) ALL\n"
 
     # Ask which plugin to do something with
-    value = input(message + '\n').strip()
+    value = input(message + "\n").strip()
 
     # Was a plugin name given?
-    if value in plugin_list + ['ALL']:
+    if value in [*plugin_list, "ALL"]:
 
         # Return the value
         return value
@@ -77,7 +69,7 @@ def get_plugin(suffix, allow_all=True):
         if value == len(plugin_list) + 1 and allow_all:
 
             # Return ALL
-            return 'ALL'
+            return "ALL"
 
     # If no valid choice was given, try again
     return get_plugin(suffix, allow_all)
@@ -86,14 +78,11 @@ def get_plugin(suffix, allow_all=True):
 def link_directory(src, dest):
     """Create a symbolic link for the given source at the given destination."""
     # Is this a Windows OS?
-    if PLATFORM == 'windows':
+    if PLATFORM == "windows":
 
         # Link using Windows format
         system(
-            'mklink /d "{destination}" "{source}"'.format(
-                destination=dest,
-                source=src,
-            )
+            f'mklink /d "{dest}" "{src}"',
         )
 
     # Is this a Linux OS?
@@ -101,24 +90,18 @@ def link_directory(src, dest):
 
         # Link using Linux format
         system(
-            'ln -s "{source}" "{destination}"'.format(
-                source=src,
-                destination=dest,
-            )
+            f'ln -s "{src}" "{dest}"',
         )
 
 
 def link_file(src, dest):
     """Create a hard link for the given source at the given destination."""
     # Is this a Windows OS?
-    if PLATFORM == 'windows':
+    if PLATFORM == "windows":
 
         # Link using Windows format
         system(
-            'mklink "{destination}" "{source}"'.format(
-                destination=dest,
-                source=src,
-            )
+            f'mklink "{dest}" "{src}"',
         )
 
     # Is this a Linux OS?
@@ -126,8 +109,5 @@ def link_file(src, dest):
 
         # Link using Linux format
         system(
-            'ln -s "{source}" "{destination}"'.format(
-                source=src,
-                destination=dest,
-            )
+            f'ln -s "{src}" "{dest}"',
         )

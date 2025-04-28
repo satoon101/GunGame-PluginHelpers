@@ -6,13 +6,8 @@
 # >> IMPORTS
 # =============================================================================
 # Package
-from common.constants import GUNGAME_DIR
-from common.constants import START_DIR
-from common.constants import plugin_list
-from common.functions import clear_screen
-from common.functions import get_plugin
-from common.functions import link_directory
-from common.functions import link_file
+from common.constants import GUNGAME_DIR, START_DIR, plugin_list
+from common.functions import clear_screen, get_plugin, link_directory, link_file
 
 
 # =============================================================================
@@ -23,9 +18,7 @@ def link_plugin(plugin_name):
     # Was an invalid plugin name given?
     if plugin_name not in plugin_list:
         print(
-            'Invalid plugin name "{plugin_name}"'.format(
-                plugin_name=plugin_name,
-            )
+            f'Invalid plugin name "{plugin_name}"',
         )
         return
 
@@ -34,54 +27,54 @@ def link_plugin(plugin_name):
 
     # Link the main directory
     _link_directory(
-        plugin_path, 'addons', 'source-python', 'plugins',
-        'gungame', 'plugins', 'custom', plugin_name,
+        plugin_path, "addons", "source-python", "plugins",
+        "gungame", "plugins", "custom", plugin_name,
     )
 
     # Link the data directory
     _link_directory(
-        plugin_path, 'addons', 'source-python', 'data',
-        'plugins', 'gungame', plugin_name,
+        plugin_path, "addons", "source-python", "data",
+        "plugins", "gungame", plugin_name,
     )
 
     # Link the data file
     _link_file(
-        plugin_path, 'addons', 'source-python', 'data',
-        'plugins', 'gungame', plugin_name + '.ini',
+        plugin_path, "addons", "source-python", "data",
+        "plugins", "gungame", plugin_name + ".ini",
     )
 
     # Link the message translations file
     _link_file(
-        plugin_path, 'resource', 'source-python', 'translations',
-        'gungame', 'messages', 'custom_plugins', plugin_name + '.ini'
+        plugin_path, "resource", "source-python", "translations",
+        "gungame", "messages", "custom_plugins", plugin_name + ".ini",
     )
 
     # Link the commands translations file
     _link_file(
-        plugin_path, 'resource', 'source-python', 'translations',
-        'gungame', 'commands', 'custom_plugins', plugin_name + '.ini'
+        plugin_path, "resource", "source-python", "translations",
+        "gungame", "commands", "custom_plugins", plugin_name + ".ini",
     )
 
     # Link the config translations file
     _link_file(
-        plugin_path, 'resource', 'source-python', 'translations',
-        'gungame', 'config', 'custom_plugins', plugin_name + '.ini'
+        plugin_path, "resource", "source-python", "translations",
+        "gungame", "config", "custom_plugins", plugin_name + ".ini",
     )
 
     # Link the rules translations file
     _link_file(
-        plugin_path, 'resource', 'source-python', 'translations',
-        'gungame', 'rules', 'custom_plugins', plugin_name + '.ini'
+        plugin_path, "resource", "source-python", "translations",
+        "gungame", "rules", "custom_plugins", plugin_name + ".ini",
     )
 
     # Link sounds
-    sound_path = plugin_path / 'sound' / 'source-python' / 'gungame' / 'default'
+    sound_path = plugin_path / "sound" / "source-python" / "gungame" / "default"
     if not sound_path.isdir():
         return
 
     for sound_file in sound_path.files():
         _link_file(
-            plugin_path, 'sound', 'source-python', 'gungame', 'default',
+            plugin_path, "sound", "source-python", "gungame", "default",
             sound_file.name,
         )
 
@@ -130,10 +123,10 @@ def _link_file(plugin_path, *args):
 # =============================================================================
 # >> CALL MAIN FUNCTION
 # =============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # Get the plugin to link
-    _plugin_name = get_plugin('link')
+    _plugin_name = get_plugin("link")
 
     # Was a valid plugin chosen?
     if _plugin_name is not None:
@@ -142,7 +135,7 @@ if __name__ == '__main__':
         clear_screen()
 
         # Was ALL chosen?
-        if _plugin_name == 'ALL':
+        if _plugin_name == "ALL":
 
             # Loop through all plugins
             for _plugin_name in plugin_list:
