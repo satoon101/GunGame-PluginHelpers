@@ -1,7 +1,4 @@
 GitPython
 configobj
 path
-pycodestyle
-pydocstyle
-pyflakes
-pylint
+ruff
