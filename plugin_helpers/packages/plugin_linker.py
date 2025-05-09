@@ -37,10 +37,14 @@ def link_plugin(plugin_name):
         "plugins", "gungame", plugin_name,
     )
 
-    # Link the data file
+    # Link the data files
     _link_file(
         plugin_path, "addons", "source-python", "data",
         "plugins", "gungame", plugin_name + ".ini",
+    )
+    _link_file(
+        plugin_path, "addons", "source-python", "data",
+        "plugins", "gungame", plugin_name + ".json",
     )
 
     # Link the message translations file
@@ -69,7 +73,7 @@ def link_plugin(plugin_name):
 
     # Link sounds
     sound_path = plugin_path / "sound" / "source-python" / "gungame" / "default"
-    if not sound_path.isdir():
+    if not sound_path.is_dir():
         return
 
     for sound_file in sound_path.files():
@@ -88,14 +92,14 @@ def _link_directory(plugin_path, *args):
     src = plugin_path.joinpath(*args)
 
     # Does the path not exist?
-    if not src.isdir():
+    if not src.is_dir():
         return
 
     # Get the path within the Source.Python repository
     dest = GUNGAME_DIR.joinpath(*args)
 
     # Does the destination not exist?
-    if not dest.isdir():
+    if not dest.is_dir():
 
         # Link the directory
         link_directory(src, dest)
@@ -107,14 +111,14 @@ def _link_file(plugin_path, *args):
     src = plugin_path.joinpath(*args)
 
     # Does the path not exist?
-    if not src.isfile():
+    if not src.is_file():
         return
 
     # Get the path within the Source.Python repository
     dest = GUNGAME_DIR.joinpath(*args)
 
     # Does the destination not exist?
-    if not dest.isfile():
+    if not dest.is_file():
 
         # Link the file
         link_file(src, dest)
