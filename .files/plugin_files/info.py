@@ -1,15 +1,15 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/settings.py
+# ../gungame/plugins/custom/gg_{plugin_name}/info.py
 
-"""Player settings for gg_{plugin_name}."""
+"""Provides/stores information about the plugin."""
 
 # =============================================================================
 # >> IMPORTS
 # =============================================================================
-# GunGame
-from gungame.core.settings import gungame_player_settings
+# Source.Python
+from gungame.core.plugins.info import GunGamePluginInfo
 
 
 # =============================================================================
-# >> SETTINGS
+# >> PLUGIN INFO
 # =============================================================================
-{plugin_name}_settings = gungame_player_settings.add_section('{plugin_name}_settings')
+info = GunGamePluginInfo(__name__)
