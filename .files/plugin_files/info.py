@@ -1,4 +1,4 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/info.py
+# ../gungame/plugins/custom/gg_{{ plugin_name }}/info.py
 
 """Provides/stores information about the plugin."""
 

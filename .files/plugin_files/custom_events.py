@@ -1,6 +1,6 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/custom_events.py
+# ../gungame/plugins/custom/gg_{{ plugin_name }}/custom_events.py
 
-"""Events used by gg_{plugin_name}."""
+"""Events used by gg_{{ plugin_name }}."""
 
 # =============================================================================
 # >> IMPORTS
@@ -20,7 +20,7 @@ from .info import info
 # >> ALL DECLARATION
 # =============================================================================
 __all__ = (
-    'GG_{plugin_class}',
+    "GG_{{ plugin_name.title() }}",
 )
 
 
@@ -36,4 +36,4 @@ class GG_{plugin_class}(CustomEvent):
 # =============================================================================
 # >> RESOURCE FILE
 # =============================================================================
-GGResourceFile(info.name, GG_{plugin_class})
+GGResourceFile(info.name, GG_{{ plugin_name.title() }})

@@ -1,6 +1,6 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/settings.py
+# ../gungame/plugins/custom/gg_{{ plugin_name }}/settings.py
 
-"""Player settings for gg_{plugin_name}."""
+"""Player settings for gg_{{ plugin_name }}."""
 
 # =============================================================================
 # >> IMPORTS
@@ -12,6 +12,6 @@ from gungame.core.settings import gungame_player_settings
 # =============================================================================
 # >> SETTINGS
 # =============================================================================
-{plugin_name}_settings = gungame_player_settings.add_section(
-    '{plugin_name}_settings'
+{{ plugin_name }}_settings = gungame_player_settings.add_section(
+    "{{ plugin_name }}_settings"
 )

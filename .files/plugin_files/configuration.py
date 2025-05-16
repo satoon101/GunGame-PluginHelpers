@@ -1,6 +1,6 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/configuration.py
+# ../gungame/plugins/custom/gg_{{ plugin_name }}/configuration.py
 
-"""Creates the gg_{plugin_name} configuration."""
+"""Creates the gg_{{ plugin_name }} configuration."""
 
 # =============================================================================
 # >> IMPORTS

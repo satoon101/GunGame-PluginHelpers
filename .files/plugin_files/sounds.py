@@ -1,6 +1,6 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/sounds.py
+# ../gungame/plugins/custom/gg_{{ plugin_name }}/sounds.py
 
-"""Register sounds for gg_{plugin_name}."""
+"""Register sounds for gg_{{ plugin_name }}."""
 
 # =============================================================================
 # >> IMPORTS
@@ -13,6 +13,6 @@ from gungame.core.sounds.manager import sound_manager
 # >> SOUND REGISTRATION
 # =============================================================================
 sound_manager.register_sound(
-    sound_name='',
-    default='',
+    sound_name="",
+    default="",
 )

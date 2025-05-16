@@ -1,6 +1,6 @@
-# ../gungame/plugins/custom/gg_{plugin_name}/rules.py
+# ../gungame/plugins/custom/gg_{{ plugin_name }}/rules.py
 
-"""Creates the gg_{plugin_name} rules."""
+"""Creates the gg_{{ plugin_name }} rules."""
 
 # =============================================================================
 # >> IMPORTS
@@ -16,4 +16,4 @@ from .info import info
 # =============================================================================
 # >> RULES
 # =============================================================================
-{plugin_name}_rules = GunGameRules(info.name)
+{{ plugin_name }}_rules = GunGameRules(info.name)
